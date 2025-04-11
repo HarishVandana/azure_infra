@@ -1,4 +1,4 @@
-# environments/prod/main.tf for testing
+# environments/prod/main.tf
 provider "azurerm" {
   features {}
   subscription_id = "140e007d-58bb-49d0-b585-2045e4132205"
