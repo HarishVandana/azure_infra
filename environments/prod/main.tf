@@ -1,4 +1,4 @@
-# environments/dev/main.tf
+# environments/prod/main.tf
 provider "azurerm" {
   features {}
   subscription_id = "140e007d-58bb-49d0-b585-2045e4132205"
@@ -15,7 +15,7 @@ module "vnet" {
     backend = ["10.0.2.0/24"]
   }
   tags = {
-    env    = "dev"
+    env    = "prod"
     region = "eastus"
   }
 }
