@@ -6,7 +6,7 @@ provider "azurerm" {
 module "vnet" {
   source              = "../../modules/vnet"
   vnet_name           = "vnet-dev-eastus"
-  resource_group_name = "rg-dev"
+  resource_group_name = "sanofi-dev-rg"
   location            = "eastus"
   address_space       = ["10.0.0.0/16"]
   subnets = {
