@@ -5,6 +5,7 @@ on:
     paths:
       - "environments/dev/**"
       - "modules/**"
+      - ".github/workflows/main.yml"
     branches:
       - main
 
