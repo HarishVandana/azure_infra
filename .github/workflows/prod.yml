@@ -1,4 +1,4 @@
-name: Deploy Azure Dev Environment
+name: Deploy Azure Prod Environment
 
 on:
   push:
