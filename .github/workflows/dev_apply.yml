@@ -3,7 +3,7 @@ name: Terraform Apply - Dev
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - 'environments/dev/**'
       - 'modules/**'
