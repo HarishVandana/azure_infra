@@ -1,0 +1,49 @@
+name: Terraform Apply - Dev
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'environments/dev/**'
+      - 'modules/**'
+
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.6
+
+      - name: Azure Login
+        run: |
+          az login --service-principal \
+            --username ${{ secrets.AZURE_CLIENT_ID }} \
+            --password ${{ secrets.AZURE_CLIENT_SECRET }} \
+            --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Download Plan
+        uses: actions/download-artifact@v3
+        with:
+          name: tfplan-dev
+          path: environments/dev
+
+      - name: Terraform Init
+        working-directory: environments/dev
+        run: |
+          terraform init \
+            -backend-config="storage_account_name=${{ secrets.DEV_STORAGE_ACCOUNT_NAME }}" \
+            -backend-config="container_name=${{ secrets.DEV_CONTAINER_NAME }}" \
+            -backend-config="resource_group_name=${{ secrets.DEV_RESOURCE_GROUP_NAME }}" \
+            -backend-config="key=${{ secrets.DEV_KEY }}"
+
+      - name: Terraform Apply
+        working-directory: environments/dev
+        run: terraform apply -auto-approve tfplan.out
